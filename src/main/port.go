@@ -58,6 +58,7 @@ func (sm *SafeMap) checkPort(ip net.IP, port int, parallelChan *chan int) {
 		}
 		sm.pushIp(strconv.Itoa(port)+"/tcp", service)
 	}
+
 	<-*parallelChan
 }
 
@@ -83,7 +84,6 @@ func (sm *SafeMap) portScan(ctx context.Context,ip net.IP) {
 				for i := startPort; i <= endPort; i++ {
 					parallelChan <- 1
 					go sm.checkPort(ip, i, &parallelChan)
-				//sm.PrintDataip()
 				}
 			}
 		}
